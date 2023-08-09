@@ -1,0 +1,25 @@
+{
+  "name": "code-tutor-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cam burley",
+  "license": "ISC",
+  "dependencies": {
+    "@pinecone-database/pinecone": "^0.1.6",
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-sse": "^0.5.3",
+    "langchain": "^0.0.89",
+    "mixpanel": "^0.17.0",
+    "node-cron": "^3.0.2",
+    "openai": "^3.2.1"
+  }
+}

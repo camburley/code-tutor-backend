@@ -1,0 +1,3 @@
+{
+    "index.js": "export default function Home() \n            return (\n              <section>\n                <span style= \"display: 'flex', alignItems: 'center', justifyContent: 'center'\"  className=\"flex items-center justify-center\">\n                  <ChatBox />\n                </span>\n              </section>\n            )\n          "
+  }
