@@ -1,4 +1,4 @@
-# NEXT.JS + LangChain Conversational Chat Course
+# NODE.JS + LangChain Conversational Chat Course
 
 This course teaches you how to build conversational AI applications using [Langchain](https: //langchain.org/ ) and [OpenAI's API](https: //openai.com/api/ ) with [Next.js](https: //nextjs.org/ ).
 
