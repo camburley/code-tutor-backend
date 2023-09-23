@@ -187,6 +187,33 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
 
         });
 
+        function formatDate(d) {
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+        
+            const month = monthNames[d.getMonth()];  // getMonth() returns a zero-based index
+            const day = d.getDate();
+            const year = d.getFullYear();
+        
+            let hours = d.getHours();
+            const minutes = d.getMinutes();
+        
+            // Convert 24-hour time format to 12-hour format with AM/PM
+            const amOrPm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours === 0 ? 12 : hours;  // Convert 0 to 12 for 12 AM
+        
+            // Make sure minutes are two digits
+            const minutesFormatted = minutes < 10 ? '0' + minutes : minutes;
+        
+            return `${month} ${day}, ${year}, ${hours}:${minutesFormatted} ${amOrPm}`;
+        }
+        
+        const currentDate = new Date();
+        console.log(formatDate(currentDate));  // Outputs: "September 23, 2023" (assuming today's date is September 23, 2023)
+
         const template = ` You are a code tutoring assistant. You are here to help me understand how to write or adjust Javascript code from context. 
 
         Your goal is to:
@@ -209,6 +236,8 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
 
         Here's my most recent message:
         {user_message}
+
+        Today is: ${formatDate(currentDate)}
 
         Please abide by the following rules:
         1. Include line breaks before and after paragraphs. 
