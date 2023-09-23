@@ -130,6 +130,26 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
 
         // now call the chain
 
+
+        // Listen for client disconnect (to close resources)
+        req.on('close', () => {
+            console.log("Client disconnected => req.on('close') ");
+            // Cleanup logic here: stop intervals, close streams, etc.
+            tutorllm.off();
+            tutorllm.close();
+            tutorllm.stop();
+        });
+
+        // Keep-Alive logic
+        const keepAliveInterval = setInterval(() => {
+            res.write(`:keep-alive\n\n`);
+        }, 15000); // 15 seconds
+
+        // Don't forget to clear the interval when the response ends
+        res.on('finish', () => {
+            clearInterval(keepAliveInterval);
+        });
+
         const interactionExecutionResult = await interactionsChain.call({
             user_message: userMessage
         });
