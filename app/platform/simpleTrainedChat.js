@@ -19,7 +19,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
         
         const classifyLLM = new OpenAI({
             temperature: 0, 
-            modelName: 'gpt-4',
+            modelName: 'gpt-3.5-turbo',
             openAIApiKey: key
         });
 
