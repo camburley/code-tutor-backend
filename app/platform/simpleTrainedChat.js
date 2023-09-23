@@ -5,7 +5,7 @@ const { ChatOpenAI } = require("langchain/chat_models/openai");
 const { PromptTemplate } = require("langchain/prompts");
 const { CallbackManager } = require("langchain/callbacks");
 
-const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) => {
+const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res ) => {
     console.log("inside simpleTrainedChats!");
 
     const key = process.env.key
@@ -13,6 +13,7 @@ const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) =>
     const sse = new expressSSE();
 
     const userList = JSON.parse( u || "[]" );
+    const assistantList = JSON.parse( a || "[]" );
 
     const handleClassification = async () => {
         
@@ -152,8 +153,10 @@ const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) =>
                     res.write(`data: ${JSON.stringify(token)}\n\n`)
                 },
                 handleLLMEnd: async (token) => {
-                    sse.send("🤖", null); // or another event type that the client can use to detect the end of the data
+                    console.log(`End token`, token)
+                    console.log('Stream ended');
                     res.end();
+                    sse.off();
                 },
                 handleLLMError: async (e) => {
                     sse.send("error", e.message);
@@ -177,8 +180,9 @@ const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) =>
         The following code is your context:
         {context}
 
-        also take into context, chat history between you and I:
+        also take into context, chat history between me and you:
         {chat_history}
+        {ai_history}
 
         Here's my most recent message:
         {user_message}
@@ -199,7 +203,7 @@ const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) =>
 
         const promptTemplate = new PromptTemplate({
             template, 
-            inputVariables: ["context", "chat_history", "user_message"]
+            inputVariables: ["context", "chat_history", "ai_history", "user_message"]
         });
 
         const tutorChain = new LLMChain({
@@ -216,6 +220,7 @@ const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) =>
         await tutorChain.call({
             context: JSON.stringify(contextArr).replace(/}/g, "}}").replace(/{/g, "{{" ),
             chat_history: JSON.stringify(userList).replace(/}/g, "}}").replace(/{/g, "{{" ),
+            ai_history: JSON.stringify(assistantList).replace(/}/g, "}}").replace(/{/g, "{{" ),
             user_message: userMessage
         });
 
@@ -228,7 +233,8 @@ const simpleTrainedChats = async (contextArr, u, llm, userMessage, req, res ) =>
     
     // respond as tutor or as AI helper depending on classification
     if(classify === 'interacting' || classify === 'Interacting'){
-        await handleInteractions();
+        // await handleInteractions();
+        await handleTutorChain();
     } else {
         await handleTutorChain();
     }
