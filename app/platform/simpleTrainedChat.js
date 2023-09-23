@@ -159,6 +159,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
 
 
     const handleTutorChain = async () => {
+        console.log('inside tutor llm')
 
         const tutorllm = new ChatOpenAI({
             temperature: 0, 
@@ -168,7 +169,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
             verbose: true,
             callbackManager: CallbackManager.fromHandlers({
                 handleLLMNewToken: async (token) => {
-                    console.log(token);
+                    console.log(`token`, token);
                     sse.updateInit(token);
                     res.write(`data: ${JSON.stringify(token)}\n\n`)
                 },
@@ -252,7 +253,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
     console.log(`classify`, classify);
     
     // respond as tutor or as AI helper depending on classification
-    if(classify === 'interacting' || classify === 'Interacting'){
+    if(classify === 'code' || classify === 'Code'){
         // await handleInteractions();
         await handleTutorChain();
     } else {
