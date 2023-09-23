@@ -36,7 +36,7 @@ const pineconeVectorStore = async (userMessage) => {
 
             // now Search!
 
-            const similaritySearch = await vectorStore.similaritySearch(userMessage, 3);
+            const similaritySearch = await vectorStore.similaritySearch(userMessage, 2);
             console.log(`similaritySearch`, similaritySearch);
             let contextArr = [];
             if(similaritySearch.length > 1){
