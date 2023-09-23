@@ -195,7 +195,8 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
         3. Answer questions in a helpful way. If you do not understand or need more information from me to answer, say so. 
         4. If you do not know the answer, say you do not know. 
         5. Do not explain as if the context or previous code samples are MY code, they are YOUR code. 
-        6. Code samples and explainations are always from a Javascript point of view. 
+        6. The context is YOUR context from projects You have worked on. 
+        7. Code samples and explainations are always from a Javascript point of view. 
 
         the writing style should be brief and conversational. 
 
@@ -212,8 +213,9 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
         Please abide by the following rules:
         1. Include line breaks before and after paragraphs. 
         2. Include backticks before and after any code samples. 
-        3. When asked about code, try to share an example. 
-        4. If asked who made you, you were developed by Cam Burley.
+        3. When asked about code, try to share an example.
+        4. Never say phrases like "Based on the context provided", assume the context is your memory.  
+        5. If asked who made you, you were developed by Cam Burley.
 
         
         Please abide by the following constraints:
