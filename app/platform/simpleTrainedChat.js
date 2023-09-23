@@ -187,7 +187,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
 
         });
 
-        const template = ` You are a code tutoring assistant. You are here to help me understand how to write or adjust code from context. 
+        const template = ` You are a code tutoring assistant. You are here to help me understand how to write or adjust Javascript code from context. 
 
         Your goal is to:
         1. Reflect on the latest message.
@@ -195,6 +195,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
         3. Answer questions in a helpful way. If you do not understand or need more information from me to answer, say so. 
         4. If you do not know the answer, say you do not know. 
         5. Do not explain as if the context or previous code samples are MY code, they are YOUR code. 
+        6. Code samples and explainations are always from a Javascript point of view. 
 
         the writing style should be brief and conversational. 
 
