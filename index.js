@@ -10,6 +10,19 @@ const assistantCompletion = require('./app/platform/assistant');
 const jsonHandler = require('./app/platform/jsonHandler');
 const pineconeVectorStore = require('./app/platform/pineconeVectorStore');
 const simpleTrainedChats = require('./app/platform/simpleTrainedChat');
+const chatMessages = require('./app/tutorials/chatMessages');
+const document = require('./app/tutorials/document');
+const languageModel = require('./app/tutorials/languageModel');
+const chatModel = require('./app/tutorials/chatModel');
+const textEmbeddingModel = require('./app/tutorials/textEmbeddingModel');
+const prompt = require('./app/tutorials/prompt');
+const promptTemplate = require('./app/tutorials/promptTemplate');
+const exampleSelector = require('./app/tutorials/exampleSelector');
+const documentLoader = require('./app/tutorials/documentLoader');
+const textSplitter = require('./app/tutorials/textSplitter');
+const simpleSequentialChain = require('./app/tutorials/simpleSequentialChain');
+const summaryChain = require('./app/tutorials/summaryChain');
+const agent = require('./app/tutorials/agent');
 
 
 // require('dotenv').config({ path: path.resolve(__dirname, './config/dev.env') });
@@ -42,6 +55,62 @@ app.use(function (err, req, res, next) {
 app.use(cors({ origin: '*' }));
 
 
+// tutorials
+
+app.get(`/api/v1/assistant/chatMessages`, async ( req, res ) => {
+    await chatMessages(req, res);
+});
+
+app.get(`/api/v1/assistant/doc`, async ( req, res ) => {
+    await document(req, res);
+});
+
+app.get(`/api/v1/assistant/languageModel`, async ( req, res ) => {
+    await languageModel(req, res);
+});
+
+app.get(`/api/v1/assistant/chatModel`, async ( req, res ) => {
+    await chatModel(req, res);
+});
+
+app.get(`/api/v1/assistant/textEmbed`, async ( req, res ) => {
+    await textEmbeddingModel(req, res);
+});
+
+app.get(`/api/v1/assistant/prompt`, async ( req, res ) => {
+    await prompt(req, res);
+});
+
+app.get(`/api/v1/assistant/promptTemplate`, async ( req, res ) => {
+    await promptTemplate(req, res);
+});
+
+app.get(`/api/v1/assistant/exampleSelector`, async ( req, res ) => {
+    await exampleSelector(req, res);
+});
+
+app.get(`/api/v1/assistant/docLoader`, async ( req, res ) => {
+    await documentLoader(req, res);
+});
+
+app.get(`/api/v1/assistant/textSplitter`, async ( req, res ) => {
+    await textSplitter(req, res);
+});
+
+app.get(`/api/v1/assistant/chain`, async ( req, res ) => {
+    await simpleSequentialChain(req, res);
+});
+
+app.get(`/api/v1/assistant/summaryChain`, async ( req, res ) => {
+    await summaryChain(req, res);
+});
+
+app.get(`/api/v1/assistant/agent`, async ( req, res ) => {
+    await agent(req, res);
+});
+
+
+// tutorials 
 
     app.post(`/api/v1/assistant/completion`, async ( req, res ) => {
 
@@ -67,11 +136,12 @@ app.use(cors({ origin: '*' }));
     app.post(`/api/v1/assistant/simpleTrainedChat`, async ( req, res ) => {
 
         const u = req.body.u
+        const a = req.body.a
         const userMessage = req.body.userMessage
         const llm = req.body.llm
 
         const contextArr = await pineconeVectorStore(userMessage);
-        await simpleTrainedChats(contextArr, u, llm, userMessage, req, res);
+        return await simpleTrainedChats(contextArr, u, a, llm, userMessage, req, res);
         
     });
 
