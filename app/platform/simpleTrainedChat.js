@@ -9,7 +9,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
     console.log("inside simpleTrainedChats!");
 
     const key = process.env.key
-    const chatModel = llm === 35 ? 'gpt-3.5-turbo' : 'gpt-3.5-turbo-16k'
+    const chatModel = llm === 35 ? 'gpt-3.5-turbo-16k' : 'gpt-3.5-turbo-16k'
     const sse = new expressSSE();
 
     const userList = JSON.parse( u || "[]" );
@@ -19,7 +19,7 @@ const simpleTrainedChats = async (contextArr, u, a, llm, userMessage, req, res )
         
         const classifyLLM = new OpenAI({
             temperature: 0, 
-            modelName: 'gpt-3.5-turbo',
+            modelName: 'gpt-3.5-turbo-16k',
             openAIApiKey: key
         });
 
